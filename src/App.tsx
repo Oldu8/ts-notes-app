@@ -5,31 +5,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import NewNote from "./NewNote";
 import useLocalStorage from "./useLocalStorage";
 import { v4 as uuidV4 } from "uuid";
-
-export type Note = {
-  id: string;
-} & NoteData;
-
-export type NoteData = {
-  title: string;
-  markdown: string;
-  tags: Tag[];
-};
-
-export type RawNoteData = {
-  title: string;
-  markdown: string;
-  tagIds: string[];
-};
-
-export type Tag = {
-  id: string;
-  label: string;
-};
-
-export type RawNote = {
-  id: string;
-} & RawNoteData;
+import NoteList from "./NoteList";
+import { NoteData, RawNote, Tag } from "./types";
 
 function App() {
   const [notes, setNotes] = useLocalStorage<RawNote[]>("NOTES", []);
@@ -42,7 +19,7 @@ function App() {
   const notesWithTags = useMemo(() => {
     return notes.map((note) => {
       return {
-        ...notes,
+        ...note,
         tags: tags.filter((tag) => note.tagIds.includes(tag.id)),
       };
     });
@@ -59,7 +36,10 @@ function App() {
   return (
     <Container className="my-4">
       <Routes>
-        <Route path="/" element={<h1>Hi</h1>} />
+        <Route
+          path="/"
+          element={<NoteList notes={notesWithTags} availableTags={tags} />}
+        />
         <Route
           path="/new"
           element={
