@@ -31,6 +31,8 @@ export type SimplifiedNote = {
 export type NoteListProps = {
   availableTags: Tag[];
   notes: SimplifiedNote[];
+  onDeleteTag: (id: string) => void;
+  onUpdateTag: (id: string, label: string) => void;
 };
 export type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
@@ -40,4 +42,12 @@ export type NoteFormProps = {
 
 export type NoteLayoutProps = {
   notes: Note[];
+};
+
+export type EditTagsModalProps = {
+  availableTags: Tag[];
+  show: boolean;
+  handleClose: () => void;
+  onDeleteTag: (id: string) => void;
+  onUpdateTag: (id: string, label: string) => void;
 };
